@@ -17,26 +17,27 @@ class ViewController: UIViewController,MKMapViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //UserDefaultを生成
+        //UserDefaultsを生成
         let ud = UserDefaults.standard
         
         //経緯度を読み込む
         let lat = ud.double(forKey: "LAT")
         let lon = ud.double(forKey: "LON")
-
+        
         //CLLocationCoordinate2Dに変換
-        let coordinate = CLLocationCoordinate2DMake(lat, lon)
+        let coordinate = CLLocationCoordinate2DMake(lat,lon)
         
         //表示範囲を読み込む
-        let latDelta = ud.double(forKey: "LAT_DELTA")
-        let lonDelta = ud.double(forKey: "LON_DELTA")
+        let latDelta:CLLocationDegrees = ud.double(forKey: "LAT_DELTA")
+        let lonDelta:CLLocationDegrees = ud.double(forKey: "LON_DELTA")
         
         //MKCoordinateSpanに変換
-        let span = MKCoordinateSpanMake(latDelta, lonDelta)
+        let span = MKCoordinateSpan(latitudeDelta: latDelta, longitudeDelta: lonDelta);
         
         //表示範囲と経緯度を地図に設定する
         mapView.region.span = span
         mapView.setCenter(coordinate, animated: false)
+        mapView.delegate = self
     }
 
     override func didReceiveMemoryWarning() {
